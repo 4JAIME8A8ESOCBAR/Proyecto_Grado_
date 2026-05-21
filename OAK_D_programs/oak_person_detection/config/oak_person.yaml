@@ -1,0 +1,26 @@
+camera:
+  ros__parameters:
+    camera:
+      i_pipeline_type: "RGBD"
+      i_nn_type: "yolov8"
+      i_nn_model: "yolov8n_coco_640x352"    
+      i_enable_spatial_detection: true
+      
+      rgb:
+        i_resolution: "1080p"
+        i_fps: 18
+        i_auto_exposure: true
+      
+      stereo:
+        i_resolution: "720p"
+        i_fps: 18
+      
+      nn:
+        i_label_filter: ["person"]
+        i_confidence_threshold: 0.5
+        i_max_detections: 5
+
+      # Control de luz para semi-oscuridad
+      i_enable_ir: true
+      ir:
+        i_led_brightness: 0          # Se puede cambiar después
