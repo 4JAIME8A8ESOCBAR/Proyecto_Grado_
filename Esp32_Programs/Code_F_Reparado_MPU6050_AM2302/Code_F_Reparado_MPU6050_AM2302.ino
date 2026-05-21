@@ -11,7 +11,7 @@
 #define DHTTYPE DHT22
 
 DHT dht(DHTPIN, DHTTYPE);
-
+  
 //
 //==================================================
 // MPU6050
