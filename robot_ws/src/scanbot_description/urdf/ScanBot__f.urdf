@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="ScanBot__f">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.00213761022816963 0.00228561905822553 0.00861477558647458"
+        rpy="0 0 0" />
+      <mass
+        value="1.00466079013621" />
+      <inertia
+        ixx="0.0028152824464505"
+        ixy="-4.19555891033683E-05"
+        ixz="-1.40506505686895E-05"
+        iyy="0.00432425017311337"
+        iyz="-1.47215624900376E-05"
+        izz="0.00688810240477218" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ScanBot__f/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.854901960784314 0.854901960784314 0.854901960784314 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ScanBot__f/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Left_Gear_link">
+    <inertial>
+      <origin
+        xyz="-2.2077E-10 -3.7071E-10 -0.00023041"
+        rpy="0 0 0" />
+      <mass
+        value="0.033382" />
+      <inertia
+        ixx="1.5169E-05"
+        ixy="1.8932E-13"
+        ixz="-2.8593E-15"
+        iyy="1.5169E-05"
+        iyz="1.6361E-16"
+        izz="2.5752E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ScanBot__f/meshes/Left_Gear_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.71765 0.96863 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ScanBot__f/meshes/Left_Gear_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Left_Gear_joint"
+    type="continuous">
+    <origin
+      xyz="0.06669 0.10582 -0.0298"
+      rpy="1.5708 0 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="Left_Gear_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      effort="100"
+      velocity="100" />
+    <dynamics
+      damping="0.1"
+      friction="0.1" />
+  </joint>
+  <link
+    name="Rigth_Gear_link">
+    <inertial>
+      <origin
+        xyz="3.8127E-10 -2.02E-10 -0.00023041"
+        rpy="0 0 0" />
+      <mass
+        value="0.033382" />
+      <inertia
+        ixx="1.5169E-05"
+        ixy="-1.781E-13"
+        ixz="-2.074E-17"
+        iyy="1.5169E-05"
+        iyz="-2.8639E-15"
+        izz="2.5752E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ScanBot__f/meshes/Rigth_Gear_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.71765 0.96863 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ScanBot__f/meshes/Rigth_Gear_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Rigth_Gear_joint"
+    type="continuous">
+    <origin
+      xyz="0.06669 -0.10418 -0.0298"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Rigth_Gear_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      effort="100"
+      velocity="100" />
+    <dynamics
+      damping="0.1"
+      friction="0.1" />
+  </joint>
+  <link
+    name="Left_Scatter_Gear_link">
+    <inertial>
+      <origin
+        xyz="-4.2724E-10 -6.1354E-12 0.01292"
+        rpy="0 0 0" />
+      <mass
+        value="0.033382" />
+      <inertia
+        ixx="1.5169E-05"
+        ixy="7.6907E-15"
+        ixz="-1.3341E-15"
+        iyy="1.5169E-05"
+        iyz="3.9235E-15"
+        izz="2.5752E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ScanBot__f/meshes/Left_Scatter_Gear_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.71765 0.96863 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ScanBot__f/meshes/Left_Scatter_Gear_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Left_Scatter_Gear_joint"
+    type="continuous">
+    <origin
+      xyz="-0.09031 0.094319 -0.0298"
+      rpy="1.5708 0 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="Left_Scatter_Gear_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      effort="100"
+      velocity="100" />
+    <dynamics
+      damping="0.1"
+      friction="0.1" />
+  </joint>
+  <link
+    name="Rigth_Scatter_Gear_link">
+    <inertial>
+      <origin
+        xyz="3.5702E-10 2.3392E-10 0.01292"
+        rpy="0 0 0" />
+      <mass
+        value="0.033382" />
+      <inertia
+        ixx="1.5169E-05"
+        ixy="2.0131E-13"
+        ixz="1.9069E-15"
+        iyy="1.5169E-05"
+        iyz="1.2837E-15"
+        izz="2.5752E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ScanBot__f/meshes/Rigth_Scatter_Gear_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.71765 0.96863 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ScanBot__f/meshes/Rigth_Scatter_Gear_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Rigth_Scatter_Gear_joint"
+    type="continuous">
+    <origin
+      xyz="-0.09031 -0.092781 -0.0298"
+      rpy="1.5708 -0.082932 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Rigth_Scatter_Gear_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      effort="100"
+      velocity="100" />
+    <dynamics
+      damping="0.1"
+      friction="0.1" />
+  </joint>
+</robot>

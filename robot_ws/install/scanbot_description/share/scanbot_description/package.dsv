@@ -1,0 +1,5 @@
+source;share/scanbot_description/local_setup.bash
+source;share/scanbot_description/local_setup.dsv
+source;share/scanbot_description/local_setup.ps1
+source;share/scanbot_description/local_setup.sh
+source;share/scanbot_description/local_setup.zsh
