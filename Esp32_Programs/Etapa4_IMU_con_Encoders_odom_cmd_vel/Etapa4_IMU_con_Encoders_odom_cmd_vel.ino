@@ -1,6 +1,7 @@
 // ======================================================
-// STAGE 4
+// STAGE 4.5
 // micro-ROS + ODOM + IMU + DHT22
+// ENCODER + IMU YAW FUSION
 // ======================================================
 
 #include <micro_ros_arduino.h>
@@ -148,6 +149,15 @@ float y = 0.0;
 float theta = 0.0;
 
 // ======================================================
+// YAW FUSION
+// ======================================================
+
+float theta_encoder = 0.0;
+float theta_imu     = 0.0;
+
+float fusionAlpha = 0.98;
+
+// ======================================================
 // IMU RAW
 // ======================================================
 
@@ -203,7 +213,7 @@ float gyroLowPass  = 0.88;
 float yawAlpha = 0.97;
 
 // ======================================================
-// DHT VARIABLES
+// DHT
 // ======================================================
 
 float humidity = 0;
@@ -279,14 +289,16 @@ void cmdVelCallback(const void * msgin)
   last_cmd_time = millis();
 
   float linear =
-    constrain(msg->linear.x,
-              -0.40,
-               0.40);
+    constrain(
+      msg->linear.x,
+      -0.40,
+       0.40);
 
   float angular =
-    constrain(msg->angular.z,
-              -2.5,
-               2.5);
+    constrain(
+      msg->angular.z,
+      -2.5,
+       2.5);
 
   float vR =
     linear +
@@ -618,37 +630,17 @@ void setup()
 {
   Serial.begin(115200);
 
-  //--------------------------------
-  // I2C
-  //--------------------------------
-
   setupI2C();
 
-  //--------------------------------
-  // DHT
-  //--------------------------------
-
   setupDHT();
-
-  //--------------------------------
-  // MPU
-  //--------------------------------
 
   setupMPU();
 
   calibrateGyro();
 
-  //--------------------------------
-  // microROS
-  //--------------------------------
-
   set_microros_transports();
 
   delay(2000);
-
-  //--------------------------------
-  // DRIVER
-  //--------------------------------
 
   pinMode(STBY, OUTPUT);
 
@@ -660,19 +652,11 @@ void setup()
   pinMode(AIN1, OUTPUT);
   pinMode(AIN2, OUTPUT);
 
-  //--------------------------------
-  // PWM
-  //--------------------------------
-
   ledcSetup(CH_R, PWM_FREQ, PWM_RES);
   ledcAttachPin(PWMB, CH_R);
 
   ledcSetup(CH_L, PWM_FREQ, PWM_RES);
   ledcAttachPin(PWMA, CH_L);
-
-  //--------------------------------
-  // ENCODERS
-  //--------------------------------
 
   pinMode(ENC_R_A, INPUT);
   pinMode(ENC_R_B, INPUT);
@@ -690,10 +674,6 @@ void setup()
     encL_ISR,
     CHANGE);
 
-  //--------------------------------
-  // ROS
-  //--------------------------------
-
   allocator =
     rcl_get_default_allocator();
 
@@ -709,10 +689,6 @@ void setup()
     "",
     &support);
 
-  //--------------------------------
-  // SUB
-  //--------------------------------
-
   rclc_subscription_init_best_effort(
     &sub_cmd,
     &node,
@@ -721,10 +697,6 @@ void setup()
       msg,
       Twist),
     "/cmd_vel");
-
-  //--------------------------------
-  // PUB ODOM
-  //--------------------------------
 
   rclc_publisher_init_best_effort(
     &pub_odom,
@@ -735,10 +707,6 @@ void setup()
       Odometry),
     "/odom");
 
-  //--------------------------------
-  // PUB IMU
-  //--------------------------------
-
   rclc_publisher_init_best_effort(
     &pub_imu,
     &node,
@@ -747,10 +715,6 @@ void setup()
       msg,
       Imu),
     "/imu");
-
-  //--------------------------------
-  // PUB TEMP
-  //--------------------------------
 
   rclc_publisher_init_best_effort(
     &pub_temp,
@@ -761,10 +725,6 @@ void setup()
       Temperature),
     "/temperature");
 
-  //--------------------------------
-  // PUB HUM
-  //--------------------------------
-
   rclc_publisher_init_best_effort(
     &pub_humidity,
     &node,
@@ -773,10 +733,6 @@ void setup()
       msg,
       RelativeHumidity),
     "/humidity");
-
-  //--------------------------------
-  // EXECUTOR
-  //--------------------------------
 
   rclc_executor_init(
     &executor,
@@ -791,11 +747,9 @@ void setup()
     &cmdVelCallback,
     ON_NEW_DATA);
 
-  //--------------------------------
-
   last_cmd_time = millis();
 
-  Serial.println("STAGE 4 READY");
+  Serial.println("STAGE 4.5 READY");
 }
 
 // ======================================================
@@ -804,10 +758,6 @@ void setup()
 
 void loop()
 {
-  //--------------------------------
-  // ROS
-  //--------------------------------
-
   rclc_executor_spin_some(
     &executor,
     RCL_MS_TO_NS(1));
@@ -826,9 +776,9 @@ void loop()
 
     lastControl = millis();
 
-    //--------------------------------
+    // =====================================
     // WATCHDOG
-    //--------------------------------
+    // =====================================
 
     if (millis() - last_cmd_time >
         CMD_TIMEOUT)
@@ -837,9 +787,9 @@ void loop()
       targetRPM_L = 0;
     }
 
-    //--------------------------------
+    // =====================================
     // RAMP
-    //--------------------------------
+    // =====================================
 
     smoothTargetR =
       rampTarget(
@@ -853,9 +803,9 @@ void loop()
         targetRPM_L,
         TARGET_RAMP);
 
-    //--------------------------------
+    // =====================================
     // ENCODERS
-    //--------------------------------
+    // =====================================
 
     static long prevR = 0;
     static long prevL = 0;
@@ -872,9 +822,9 @@ void loop()
     prevR = currentR;
     prevL = currentL;
 
-    //--------------------------------
+    // =====================================
     // RPM
-    //--------------------------------
+    // =====================================
 
     rpmR =
       (deltaR / PPR) *
@@ -886,9 +836,9 @@ void loop()
 
     rpmL = -rpmL;
 
-    //--------------------------------
-    // FILTER
-    //--------------------------------
+    // =====================================
+    // FILTER RPM
+    // =====================================
 
     rpmR_f =
       alphaRPM * rpmR +
@@ -900,9 +850,9 @@ void loop()
       (1.0 - alphaRPM) *
       rpmL_f;
 
-    //--------------------------------
+    // =====================================
     // PID RIGHT
-    //--------------------------------
+    // =====================================
 
     if (abs(smoothTargetR) < 1.0)
     {
@@ -934,9 +884,9 @@ void loop()
         kd * dR;
     }
 
-    //--------------------------------
+    // =====================================
     // PID LEFT
-    //--------------------------------
+    // =====================================
 
     if (abs(smoothTargetL) < 1.0)
     {
@@ -968,10 +918,6 @@ void loop()
         kd * dL;
     }
 
-    //--------------------------------
-    // LIMIT
-    //--------------------------------
-
     pwmR =
       constrain(
         pwmR,
@@ -984,9 +930,9 @@ void loop()
         -MAX_PWM,
         MAX_PWM);
 
-    //--------------------------------
+    // =====================================
     // DRIVE
-    //--------------------------------
+    // =====================================
 
     driveMotor(
       pwmR,
@@ -1002,17 +948,17 @@ void loop()
       CH_L,
       INVERT_LEFT);
 
-    //--------------------------------
-    // IMU UPDATE
-    //--------------------------------
+    // =====================================
+    // IMU
+    // =====================================
 
     readMPU();
 
     processIMU(dt);
 
-    //--------------------------------
-    // ODOM
-    //--------------------------------
+    // =====================================
+    // VELOCITIES
+    // =====================================
 
     float vR =
       (rpmR_f *
@@ -1028,18 +974,55 @@ void loop()
        WHEEL_RADIUS)
       / 60.0;
 
+    // =====================================
+    // LINEAR
+    // =====================================
+
     float linear =
       (vR + vL) / 2.0;
 
-    //--------------------------------
-    // THETA FROM IMU
-    //--------------------------------
+    // =====================================
+    // ENCODER ANGULAR
+    // =====================================
+
+    float angular_encoder =
+      (vR - vL) / WHEEL_BASE;
+
+    // =====================================
+    // IMU ANGULAR
+    // =====================================
+
+    float angular_imu =
+      gz_f * PI / 180.0;
+
+    // =====================================
+    // INTEGRATE ENCODER
+    // =====================================
+
+    theta_encoder +=
+      angular_encoder * dt;
+
+    // =====================================
+    // INTEGRATE IMU
+    // =====================================
+
+    theta_imu +=
+      angular_imu * dt;
+
+    // =====================================
+    // COMPLEMENTARY FUSION
+    // =====================================
 
     theta =
-      yaw_filtered *
-      PI / 180.0;
+      fusionAlpha *
+      theta_imu +
 
-    //--------------------------------
+      (1.0 - fusionAlpha) *
+      theta_encoder;
+
+    // =====================================
+    // POSITION
+    // =====================================
 
     x +=
       linear *
@@ -1051,9 +1034,9 @@ void loop()
       sin(theta) *
       dt;
 
-    //--------------------------------
+    // =====================================
     // ODOM MSG
-    //--------------------------------
+    // =====================================
 
     odom_msg.header.frame_id.data =
       (char*)"odom";
@@ -1077,25 +1060,17 @@ void loop()
     odom_msg.twist.twist.linear.x =
       linear;
 
-    //--------------------------------
-    // ODOM ANGULAR FROM IMU
-    //--------------------------------
-
     odom_msg.twist.twist.angular.z =
-      gz_f * PI / 180.0;
-
-    //--------------------------------
-    // PUBLISH ODOM
-    //--------------------------------
+      angular_imu;
 
     rcl_publish(
       &pub_odom,
       &odom_msg,
       NULL);
 
-    //--------------------------------
+    // =====================================
     // IMU MSG
-    //--------------------------------
+    // =====================================
 
     imu_msg.header.frame_id.data =
       (char*)"imu_link";
@@ -1116,7 +1091,7 @@ void loop()
       gy_f * PI / 180.0;
 
     imu_msg.angular_velocity.z =
-      gz_f * PI / 180.0;
+      angular_imu;
 
     imu_msg.linear_acceleration.x =
       ax_f * 9.81;
@@ -1126,10 +1101,6 @@ void loop()
 
     imu_msg.linear_acceleration.z =
       az_f * 9.81;
-
-    //--------------------------------
-    // PUBLISH IMU
-    //--------------------------------
 
     rcl_publish(
       &pub_imu,
@@ -1149,29 +1120,17 @@ void loop()
 
     readDHT();
 
-    //--------------------------------
-    // TEMP
-    //--------------------------------
-
     temp_msg.header.frame_id.data =
       (char*)"base_link";
 
     temp_msg.temperature =
       temperature;
 
-    //--------------------------------
-    // HUMIDITY
-    //--------------------------------
-
     humidity_msg.header.frame_id.data =
       (char*)"base_link";
 
     humidity_msg.relative_humidity =
       humidity / 100.0;
-
-    //--------------------------------
-    // PUBLISH
-    //--------------------------------
 
     rcl_publish(
       &pub_temp,
