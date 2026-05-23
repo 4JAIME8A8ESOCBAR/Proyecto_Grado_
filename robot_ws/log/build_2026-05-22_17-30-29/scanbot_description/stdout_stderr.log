@@ -1,0 +1,19 @@
+-- Install configuration: ""
+-- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/urdf
+-- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/urdf/ScanBot__f.urdf
+-- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/urdf/ScanBot__f.csv
+-- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes
+-- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Left_Scatter_Gear_link.STL
+-- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/base_link.STL
+-- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Rigth_Gear_link.STL
+-- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Left_Gear_link.STL
+-- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Rigth_Scatter_Gear_link.STL
+-- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/launch
+-- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/launch/display.launch
+-- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/launch/gazebo.launch
+[31mCMake Error at cmake_install.cmake:46 (file):
+  file INSTALL cannot find
+  "/home/andres/Documents/Proyecto_G/robot_ws/src/scanbot_description/rviz":
+  No such file or directory.
+
+[0m

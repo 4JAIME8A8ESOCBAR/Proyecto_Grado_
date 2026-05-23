@@ -3,7 +3,7 @@
      Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot
-  name="ScanBot__f">
+  name="scanbot_description">
   <link
     name="base_link">
     <inertial>
@@ -26,7 +26,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ScanBot__f/meshes/base_link.STL" />
+          filename="package://scanbot_description/meshes/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -40,7 +40,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ScanBot__f/meshes/base_link.STL" />
+          filename="package://scanbot_description/meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -66,7 +66,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ScanBot__f/meshes/Left_Gear_link.STL" />
+          filename="package://scanbot_description/meshes/Left_Gear_link.STL" />
       </geometry>
       <material
         name="">
@@ -80,7 +80,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ScanBot__f/meshes/Left_Gear_link.STL" />
+          filename="package://scanbot_description/meshes/Left_Gear_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -125,7 +125,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ScanBot__f/meshes/Rigth_Gear_link.STL" />
+          filename="package://scanbot_description/meshes/Rigth_Gear_link.STL" />
       </geometry>
       <material
         name="">
@@ -139,7 +139,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ScanBot__f/meshes/Rigth_Gear_link.STL" />
+          filename="package://scanbot_description/meshes/Rigth_Gear_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -184,7 +184,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ScanBot__f/meshes/Left_Scatter_Gear_link.STL" />
+          filename="package://scanbot_description/meshes/Left_Scatter_Gear_link.STL" />
       </geometry>
       <material
         name="">
@@ -198,7 +198,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ScanBot__f/meshes/Left_Scatter_Gear_link.STL" />
+          filename="package://scanbot_description/meshes/Left_Scatter_Gear_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -243,7 +243,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ScanBot__f/meshes/Rigth_Scatter_Gear_link.STL" />
+          filename="package://scanbot_description/meshes/Rigth_Scatter_Gear_link.STL" />
       </geometry>
       <material
         name="">
@@ -257,7 +257,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ScanBot__f/meshes/Rigth_Scatter_Gear_link.STL" />
+          filename="package://scanbot_description/meshes/Rigth_Scatter_Gear_link.STL" />
       </geometry>
     </collision>
   </link>

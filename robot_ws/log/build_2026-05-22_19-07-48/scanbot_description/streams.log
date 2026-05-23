@@ -1,0 +1,23 @@
+[0.018s] Invoking command in '/home/andres/Documents/Proyecto_G/robot_ws/build/scanbot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake --build /home/andres/Documents/Proyecto_G/robot_ws/build/scanbot_description -- -j16 -l16
+[0.078s] Invoked command in '/home/andres/Documents/Proyecto_G/robot_ws/build/scanbot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake --build /home/andres/Documents/Proyecto_G/robot_ws/build/scanbot_description -- -j16 -l16
+[0.094s] Invoking command in '/home/andres/Documents/Proyecto_G/robot_ws/build/scanbot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake --install /home/andres/Documents/Proyecto_G/robot_ws/build/scanbot_description
+[0.105s] -- Install configuration: ""
+[0.105s] -- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/urdf
+[0.105s] -- Installing: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/urdf/scanbot_description.urdf.xacro
+[0.105s] -- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/urdf/scanbot_description.csv
+[0.105s] -- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes
+[0.106s] -- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Left_Scatter_Gear_link.STL
+[0.106s] -- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/base_link.STL
+[0.106s] -- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Rigth_Gear_link.STL
+[0.106s] -- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Left_Gear_link.STL
+[0.106s] -- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Rigth_Scatter_Gear_link.STL
+[0.106s] -- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/launch
+[0.106s] -- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/launch/display.launch
+[0.106s] -- Up-to-date: /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/launch/gazebo.launch
+[0.106s] [31mCMake Error at cmake_install.cmake:46 (file):
+[0.106s]   file INSTALL cannot find
+[0.106s]   "/home/andres/Documents/Proyecto_G/robot_ws/src/scanbot_description/rviz":
+[0.106s]   No such file or directory.
+[0.106s] 
+[0.107s] [0m
+[0.108s] Invoked command in '/home/andres/Documents/Proyecto_G/robot_ws/build/scanbot_description' returned '1': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake --install /home/andres/Documents/Proyecto_G/robot_ws/build/scanbot_description

@@ -2,8 +2,8 @@
   <arg
     name="model" />
   <param
-    name="robot_description"
-    textfile="$(find ScanBot__f)/urdf/ScanBot__f.urdf" />
+    name="scanbot_description"
+    textfile="$(find scanbot_description)/urdf/scanbot_description.urdf" />
   <node
     name="joint_state_publisher_gui"
     pkg="joint_state_publisher_gui"
@@ -16,5 +16,5 @@
     name="rviz"
     pkg="rviz"
     type="rviz"
-    args="-d $(find ScanBot__f)/urdf.rviz" />
+    args="-d $(find scanbot_description)/urdf.rviz" />
 </launch>
