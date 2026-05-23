@@ -137,7 +137,7 @@
   <!-- RIGHT GEAR LINK                                        -->
   <!-- ====================================================== -->
 
-  <link name="Rigth_Gear_link">
+  <link name="Right_Gear_link">
 
     <inertial>
       <origin
@@ -160,7 +160,7 @@
 
       <geometry>
         <mesh
-          filename="package://scanbot_description/meshes/Rigth_Gear_link.STL"
+          filename="package://scanbot_description/meshes/Right_Gear_link.STL"
           scale="1 1 1"/>
       </geometry>
 
@@ -174,7 +174,7 @@
 
       <geometry>
         <mesh
-          filename="package://scanbot_description/meshes/Rigth_Gear_link.STL"
+          filename="package://scanbot_description/meshes/Right_Gear_link.STL"
           scale="1 1 1"/>
       </geometry>
     </collision>
@@ -182,7 +182,7 @@
   </link>
 
   <joint
-    name="Rigth_Gear_joint"
+    name="Right_Gear_joint"
     type="continuous">
 
     <origin
@@ -190,7 +190,7 @@
       rpy="1.5708 0 0"/>
 
     <parent link="base_link"/>
-    <child link="Rigth_Gear_link"/>
+    <child link="Right_Gear_link"/>
 
     <axis xyz="0 0 1"/>
 
@@ -279,7 +279,7 @@
   <!-- RIGHT SCATTER GEAR                                     -->
   <!-- ====================================================== -->
 
-  <link name="Rigth_Scatter_Gear_link">
+  <link name="Right_Scatter_Gear_link">
 
     <inertial>
       <origin
@@ -302,7 +302,7 @@
 
       <geometry>
         <mesh
-          filename="package://scanbot_description/meshes/Rigth_Scatter_Gear_link.STL"
+          filename="package://scanbot_description/meshes/Right_Scatter_Gear_link.STL"
           scale="1 1 1"/>
       </geometry>
 
@@ -316,7 +316,7 @@
 
       <geometry>
         <mesh
-          filename="package://scanbot_description/meshes/Rigth_Scatter_Gear_link.STL"
+          filename="package://scanbot_description/meshes/Right_Scatter_Gear_link.STL"
           scale="1 1 1"/>
       </geometry>
     </collision>
@@ -324,7 +324,7 @@
   </link>
 
   <joint
-    name="Rigth_Scatter_Gear_joint"
+    name="Right_Scatter_Gear_joint"
     type="continuous">
 
     <origin
@@ -332,7 +332,7 @@
       rpy="1.5708 -0.082932 0"/>
 
     <parent link="base_link"/>
-    <child link="Rigth_Scatter_Gear_link"/>
+    <child link="Right_Scatter_Gear_link"/>
 
     <axis xyz="0 0 1"/>
 

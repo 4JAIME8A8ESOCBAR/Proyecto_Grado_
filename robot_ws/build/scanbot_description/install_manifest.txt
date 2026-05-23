@@ -1,10 +1,10 @@
 /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/urdf/scanbot_description.urdf.xacro
 /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/urdf/scanbot_description.csv
 /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Left_Scatter_Gear_link.STL
+/home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Right_Gear_link.STL
 /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/base_link.STL
-/home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Rigth_Gear_link.STL
+/home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Right_Scatter_Gear_link.STL
 /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Left_Gear_link.STL
-/home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/meshes/Rigth_Scatter_Gear_link.STL
 /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/launch/display.launch.py
 /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/launch/gazebo.launch
 /home/andres/Documents/Proyecto_G/robot_ws/install/scanbot_description/share/scanbot_description/rviz/scanbot.rviz
