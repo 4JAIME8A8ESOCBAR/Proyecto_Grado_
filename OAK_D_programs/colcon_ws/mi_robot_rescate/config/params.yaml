@@ -1,0 +1,15 @@
+/**:
+  ros__parameters:
+    pipeline_gen:
+      i_pipeline_type: RGBD         #Usamos el nombre oficial de la lista de Humble
+      i_nn_type: RGB
+    
+    # Parámetros optimizados para el cálculo de distancia de la víctima
+    stereo:
+      i_align_depth: true          # Alinea el mapa de profundidad con la cámara a color
+      i_extended_disp: true        # Permite ver objetos más de cerca (útil en espacios cerrados)
+      i_lr_check: true             # Filtra falsos reflejos ocasionados por destellos o fuego
+      i_subpixel: true             # Máxima precisión matemática en la distancia métrica
+      i_stereo_conf_threshold: 220 # Filtra puntos de baja confianza (humo ligero)
+    nn:
+      i_spatial_calc_img_fx: 0 # Activa de forma interna el cálculo espacial 3D para las detecciones

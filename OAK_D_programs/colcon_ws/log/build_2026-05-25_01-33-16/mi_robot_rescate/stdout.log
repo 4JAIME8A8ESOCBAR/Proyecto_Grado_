@@ -1,0 +1,21 @@
+-- Install configuration: ""
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/ament_index/resource_index/package_run_dependencies/mi_robot_rescate
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/ament_index/resource_index/parent_prefix_path/mi_robot_rescate
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/environment/ament_prefix_path.sh
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/environment/path.sh
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/environment/path.dsv
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/local_setup.bash
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/local_setup.sh
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/local_setup.zsh
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/local_setup.dsv
+-- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/package.dsv
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/ament_index/resource_index/packages/mi_robot_rescate
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/cmake/mi_robot_rescateConfig.cmake
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/cmake/mi_robot_rescateConfig-version.cmake
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/package.xml
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate//launch
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate//launch/rescate_vision.launch.py
+-- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate//config
+-- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate//config/params.yaml
+-- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/lib/mi_robot_rescate/detector_rescate.py

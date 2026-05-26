@@ -1,0 +1,25 @@
+[0.011s] Invoking command in '/home/andres/colcon_ws/build/mi_robot_rescate': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake --build /home/andres/colcon_ws/build/mi_robot_rescate -- -j16 -l16
+[0.053s] Invoked command in '/home/andres/colcon_ws/build/mi_robot_rescate' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake --build /home/andres/colcon_ws/build/mi_robot_rescate -- -j16 -l16
+[0.063s] Invoking command in '/home/andres/colcon_ws/build/mi_robot_rescate': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake --install /home/andres/colcon_ws/build/mi_robot_rescate
+[0.070s] -- Install configuration: ""
+[0.070s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/ament_index/resource_index/package_run_dependencies/mi_robot_rescate
+[0.070s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/ament_index/resource_index/parent_prefix_path/mi_robot_rescate
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/environment/ament_prefix_path.sh
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/environment/ament_prefix_path.dsv
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/environment/path.sh
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/environment/path.dsv
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/local_setup.bash
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/local_setup.sh
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/local_setup.zsh
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/local_setup.dsv
+[0.071s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/package.dsv
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/ament_index/resource_index/packages/mi_robot_rescate
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/cmake/mi_robot_rescateConfig.cmake
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/cmake/mi_robot_rescateConfig-version.cmake
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/package.xml
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate//launch
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate//launch/rescate_vision.launch.py
+[0.071s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate//config
+[0.072s] -- Up-to-date: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate//config/params.yaml
+[0.072s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/lib/mi_robot_rescate/detector_rescate.py
+[0.073s] Invoked command in '/home/andres/colcon_ws/build/mi_robot_rescate' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake --install /home/andres/colcon_ws/build/mi_robot_rescate

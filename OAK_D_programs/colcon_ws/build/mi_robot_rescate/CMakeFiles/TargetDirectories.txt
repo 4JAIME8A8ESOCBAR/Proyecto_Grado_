@@ -1,0 +1,9 @@
+/home/andres/colcon_ws/build/mi_robot_rescate/CMakeFiles/uninstall.dir
+/home/andres/colcon_ws/build/mi_robot_rescate/CMakeFiles/mi_robot_rescate_uninstall.dir
+/home/andres/colcon_ws/build/mi_robot_rescate/CMakeFiles/test.dir
+/home/andres/colcon_ws/build/mi_robot_rescate/CMakeFiles/edit_cache.dir
+/home/andres/colcon_ws/build/mi_robot_rescate/CMakeFiles/rebuild_cache.dir
+/home/andres/colcon_ws/build/mi_robot_rescate/CMakeFiles/list_install_components.dir
+/home/andres/colcon_ws/build/mi_robot_rescate/CMakeFiles/install.dir
+/home/andres/colcon_ws/build/mi_robot_rescate/CMakeFiles/install/local.dir
+/home/andres/colcon_ws/build/mi_robot_rescate/CMakeFiles/install/strip.dir

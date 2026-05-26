@@ -1,0 +1,64 @@
+[0.010s] Invoking command in '/home/andres/colcon_ws/build/mi_robot_rescate': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake /home/andres/colcon_ws/src/mi_robot_rescate -DCMAKE_INSTALL_PREFIX=/home/andres/colcon_ws/install/mi_robot_rescate
+[0.058s] -- The C compiler identification is GNU 11.4.0
+[0.101s] -- The CXX compiler identification is GNU 11.4.0
+[0.107s] -- Detecting C compiler ABI info
+[0.174s] -- Detecting C compiler ABI info - done
+[0.179s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.179s] -- Detecting C compile features
+[0.179s] -- Detecting C compile features - done
+[0.182s] -- Detecting CXX compiler ABI info
+[0.261s] -- Detecting CXX compiler ABI info - done
+[0.266s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.266s] -- Detecting CXX compile features
+[0.267s] -- Detecting CXX compile features - done
+[0.271s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.420s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.527s] -- Found rclpy: 3.3.21 (/opt/ros/humble/share/rclpy/cmake)
+[0.530s] -- Found vision_msgs: 4.1.1 (/opt/ros/humble/share/vision_msgs/cmake)
+[0.585s] -- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.593s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.604s] -- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.620s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.639s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.689s] -- Found sensor_msgs: 4.9.1 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.704s] -- Found tf2_ros: 0.25.20 (/opt/ros/humble/share/tf2_ros/cmake)
+[0.789s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.793s] -- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.900s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[0.934s] -- Found FastRTPS: /opt/ros/humble/include  
+[0.994s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.007s] -- Looking for pthread.h
+[1.080s] -- Looking for pthread.h - found
+[1.081s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[1.159s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[1.160s] -- Found Threads: TRUE  
+[1.357s] -- Configuring done
+[1.362s] -- Generating done
+[1.364s] -- Build files have been written to: /home/andres/colcon_ws/build/mi_robot_rescate
+[1.378s] Invoked command in '/home/andres/colcon_ws/build/mi_robot_rescate' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake /home/andres/colcon_ws/src/mi_robot_rescate -DCMAKE_INSTALL_PREFIX=/home/andres/colcon_ws/install/mi_robot_rescate
+[1.380s] Invoking command in '/home/andres/colcon_ws/build/mi_robot_rescate': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake --build /home/andres/colcon_ws/build/mi_robot_rescate -- -j16 -l16
+[1.428s] Invoked command in '/home/andres/colcon_ws/build/mi_robot_rescate' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake --build /home/andres/colcon_ws/build/mi_robot_rescate -- -j16 -l16
+[1.442s] Invoking command in '/home/andres/colcon_ws/build/mi_robot_rescate': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake --install /home/andres/colcon_ws/build/mi_robot_rescate
+[1.450s] -- Install configuration: ""
+[1.450s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/lib/mi_robot_rescate/detector_rescate.py
+[1.450s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/lib/mi_robot_rescate/filtro_humo.py
+[1.450s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/launch
+[1.450s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/launch/rescate_vision.launch.py
+[1.450s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/config
+[1.450s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/config/params.yaml
+[1.450s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/ament_index/resource_index/package_run_dependencies/mi_robot_rescate
+[1.451s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/ament_index/resource_index/parent_prefix_path/mi_robot_rescate
+[1.451s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/environment/ament_prefix_path.sh
+[1.451s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/environment/ament_prefix_path.dsv
+[1.451s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/environment/path.sh
+[1.451s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/environment/path.dsv
+[1.451s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/local_setup.bash
+[1.452s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/local_setup.sh
+[1.452s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/local_setup.zsh
+[1.452s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/local_setup.dsv
+[1.452s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/package.dsv
+[1.452s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/ament_index/resource_index/packages/mi_robot_rescate
+[1.452s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/cmake/mi_robot_rescateConfig.cmake
+[1.453s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/cmake/mi_robot_rescateConfig-version.cmake
+[1.453s] -- Installing: /home/andres/colcon_ws/install/mi_robot_rescate/share/mi_robot_rescate/package.xml
+[1.455s] Invoked command in '/home/andres/colcon_ws/build/mi_robot_rescate' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble /usr/bin/cmake --install /home/andres/colcon_ws/build/mi_robot_rescate

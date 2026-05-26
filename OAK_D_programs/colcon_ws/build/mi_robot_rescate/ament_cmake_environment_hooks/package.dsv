@@ -1,0 +1,4 @@
+source;share/mi_robot_rescate/local_setup.bash
+source;share/mi_robot_rescate/local_setup.dsv
+source;share/mi_robot_rescate/local_setup.sh
+source;share/mi_robot_rescate/local_setup.zsh

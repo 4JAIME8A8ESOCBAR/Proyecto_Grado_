@@ -677,6 +677,22 @@ void setup()
   calibrateGyro();
 
   set_microros_transports();
+
+  delay(2000);
+
+  // =====================================
+  // WAIT FOR AGENT
+  // =====================================
+
+  Serial.println("Waiting for micro-ROS agent...");
+
+  while (rmw_uros_ping_agent(1000, 5) != RMW_RET_OK)
+  {
+    delay(500);
+  }
+
+  Serial.println("micro-ROS agent connected!");
+
   // =====================================
   // SYNC ROS TIME
   // =====================================
@@ -684,8 +700,6 @@ void setup()
   rmw_uros_sync_session(1000);
 
   delay(500);
-
-  delay(2000);
 
   pinMode(STBY, OUTPUT);
 
@@ -1187,7 +1201,7 @@ void loop()
 
   static unsigned long lastDHT = millis();
 
-  if (millis() - lastDHT >= 5   000)
+  if (millis() - lastDHT >= 5000)
   {
     lastDHT = millis();
 
