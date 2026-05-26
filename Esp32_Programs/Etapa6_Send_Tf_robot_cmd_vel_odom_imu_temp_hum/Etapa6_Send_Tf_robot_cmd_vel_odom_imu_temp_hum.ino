@@ -1,7 +1,7 @@
 // ======================================================
-// STAGE 5.1
+// STAGE 5.1 FINAL STABLE
 // micro-ROS + TF + ODOM + IMU + DHT22
-// ENCODER + IMU YAW FUSION
+// STABLE FOR RVIZ2 + SLAM + NAV2
 // ======================================================
 
 #include <micro_ros_arduino.h>
@@ -20,9 +20,13 @@
 
 #include <tf2_msgs/msg/tf_message.h>
 
+#include <builtin_interfaces/msg/time.h>
+
 #include <rcl/rcl.h>
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
+
+#include <rmw_microros/rmw_microros.h>
 
 #include <math.h>
 
@@ -250,7 +254,7 @@ sensor_msgs__msg__RelativeHumidity humidity_msg;
 
 tf2_msgs__msg__TFMessage tf_msg;
 
-geometry_msgs__msg__TransformStamped tf_transform;
+geometry_msgs__msg__TransformStamped tf_transforms[1];
 
 // ======================================================
 // WATCHDOG
@@ -259,6 +263,33 @@ geometry_msgs__msg__TransformStamped tf_transform;
 unsigned long last_cmd_time = 0;
 
 const unsigned long CMD_TIMEOUT = 900;
+
+// ======================================================
+// ROS TIME
+// ======================================================
+
+builtin_interfaces__msg__Time getTime()
+{
+  builtin_interfaces__msg__Time t;
+
+  int64_t time_ns =
+    rmw_uros_epoch_nanos();
+
+  if (time_ns <= 0)
+  {
+    t.sec = 0;
+    t.nanosec = 0;
+    return t;
+  }
+
+  t.sec =
+    (int32_t)(time_ns / 1000000000ULL);
+
+  t.nanosec =
+    (uint32_t)(time_ns % 1000000000ULL);
+
+  return t;
+}
 
 // ======================================================
 // ISR RIGHT
@@ -355,6 +386,16 @@ void driveMotor(
       value,
       0,
       MAX_PWM);
+
+  if (value == 0)
+  {
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, LOW);
+
+    ledcWrite(channel, 0);
+
+    return;
+  }
 
   if (dir)
   {
@@ -578,8 +619,6 @@ void calibrateGyro()
 
   const int samples = 2000;
 
-  Serial.println("KEEP ROBOT STILL");
-
   delay(3000);
 
   for (int i = 0; i < samples; i++)
@@ -601,8 +640,6 @@ void calibrateGyro()
 
   gz_offset =
     gz_sum / (float)samples;
-
-  Serial.println("GYRO READY");
 }
 
 // ======================================================
@@ -640,6 +677,13 @@ void setup()
   calibrateGyro();
 
   set_microros_transports();
+  // =====================================
+  // SYNC ROS TIME
+  // =====================================
+
+  rmw_uros_sync_session(1000);
+
+  delay(500);
 
   delay(2000);
 
@@ -699,7 +743,7 @@ void setup()
       Twist),
     "/cmd_vel");
 
-  rclc_publisher_init_best_effort(
+  rclc_publisher_init_default(
     &pub_odom,
     &node,
     ROSIDL_GET_MSG_TYPE_SUPPORT(
@@ -708,7 +752,7 @@ void setup()
       Odometry),
     "/odom");
 
-  rclc_publisher_init_best_effort(
+  rclc_publisher_init_default(
     &pub_imu,
     &node,
     ROSIDL_GET_MSG_TYPE_SUPPORT(
@@ -717,7 +761,7 @@ void setup()
       Imu),
     "/imu");
 
-  rclc_publisher_init_best_effort(
+  rclc_publisher_init_default(
     &pub_temp,
     &node,
     ROSIDL_GET_MSG_TYPE_SUPPORT(
@@ -726,7 +770,7 @@ void setup()
       Temperature),
     "/temperature");
 
-  rclc_publisher_init_best_effort(
+  rclc_publisher_init_default(
     &pub_humidity,
     &node,
     ROSIDL_GET_MSG_TYPE_SUPPORT(
@@ -757,9 +801,16 @@ void setup()
     &cmdVelCallback,
     ON_NEW_DATA);
 
+  tf_msg.transforms.data =
+    tf_transforms;
+
+  tf_msg.transforms.size = 1;
+
+  tf_msg.transforms.capacity = 1;
+
   last_cmd_time = millis();
 
-  Serial.println("STAGE 5.1 READY");
+  Serial.println("STAGE 5.1 FINAL READY");
 }
 
 // ======================================================
@@ -1001,7 +1052,6 @@ void loop()
     theta =
       fusionAlpha *
       theta_imu +
-
       (1.0 - fusionAlpha) *
       theta_encoder;
 
@@ -1018,6 +1068,9 @@ void loop()
     // =====================================
     // ODOM
     // =====================================
+
+    odom_msg.header.stamp =
+      getTime();
 
     odom_msg.header.frame_id.data =
       (char*)"odom";
@@ -1043,7 +1096,12 @@ void loop()
 
     odom_msg.twist.twist.angular.z =
       angular_imu;
-
+    if (isnan(x) || isnan(y) || isnan(theta))
+    {
+      x = 0.0;
+      y = 0.0;
+      theta = 0.0;
+    }
     rcl_publish(
       &pub_odom,
       &odom_msg,
@@ -1053,30 +1111,27 @@ void loop()
     // TF
     // =====================================
 
-    tf_transform.header.frame_id.data =
+    tf_transforms[0].header.stamp =
+      getTime();
+
+    tf_transforms[0].header.frame_id.data =
       (char*)"odom";
 
-    tf_transform.child_frame_id.data =
+    tf_transforms[0].child_frame_id.data =
       (char*)"base_footprint";
 
-    tf_transform.transform.translation.x = x;
-    tf_transform.transform.translation.y = y;
-    tf_transform.transform.translation.z = 0.0;
+    tf_transforms[0].transform.translation.x = x;
+    tf_transforms[0].transform.translation.y = y;
+    tf_transforms[0].transform.translation.z = 0.0;
 
-    tf_transform.transform.rotation.x = 0.0;
-    tf_transform.transform.rotation.y = 0.0;
+    tf_transforms[0].transform.rotation.x = 0.0;
+    tf_transforms[0].transform.rotation.y = 0.0;
 
-    tf_transform.transform.rotation.z =
+    tf_transforms[0].transform.rotation.z =
       sin(theta / 2.0);
 
-    tf_transform.transform.rotation.w =
+    tf_transforms[0].transform.rotation.w =
       cos(theta / 2.0);
-
-    tf_msg.transforms.data =
-      &tf_transform;
-
-    tf_msg.transforms.size = 1;
-    tf_msg.transforms.capacity = 1;
 
     rcl_publish(
       &pub_tf,
@@ -1086,6 +1141,9 @@ void loop()
     // =====================================
     // IMU MSG
     // =====================================
+
+    imu_msg.header.stamp =
+      getTime();
 
     imu_msg.header.frame_id.data =
       (char*)"imu_link";
@@ -1123,9 +1181,9 @@ void loop()
       NULL);
   }
 
-  // =========================================
-  // DHT LOOP
-  // =========================================
+  // =====================================
+  // DHT
+  // =====================================
 
   static unsigned long lastDHT = millis();
 
@@ -1135,11 +1193,17 @@ void loop()
 
     readDHT();
 
+    temp_msg.header.stamp =
+      getTime();
+
     temp_msg.header.frame_id.data =
       (char*)"base_link";
 
     temp_msg.temperature =
       temperature;
+
+    humidity_msg.header.stamp =
+      getTime();
 
     humidity_msg.header.frame_id.data =
       (char*)"base_link";
