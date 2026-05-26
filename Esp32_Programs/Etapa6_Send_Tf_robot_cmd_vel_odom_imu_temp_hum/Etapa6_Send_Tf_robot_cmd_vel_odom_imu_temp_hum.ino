@@ -1187,7 +1187,7 @@ void loop()
 
   static unsigned long lastDHT = millis();
 
-  if (millis() - lastDHT >= 1000)
+  if (millis() - lastDHT >= 5   000)
   {
     lastDHT = millis();
 
