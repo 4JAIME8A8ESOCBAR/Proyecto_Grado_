@@ -116,7 +116,7 @@
     type="continuous">
 
     <origin
-      xyz="0.06669 0.10582 -0.0298"
+      xyz="0.06669 0.10582 -0.0298"p
       rpy="1.5708 0 3.1416"/>
 
     <parent link="base_link"/>

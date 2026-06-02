@@ -1,5 +1,5 @@
 // ======================================================
-// STAGE 5.1 FINAL STABLE
+// STAGE 5.2 FINAL STABLE + AUTO RECONNECT
 // micro-ROS + TF + ODOM + IMU + DHT22
 // STABLE FOR RVIZ2 + SLAM + NAV2
 // ======================================================
@@ -23,12 +23,55 @@
 #include <builtin_interfaces/msg/time.h>
 
 #include <rcl/rcl.h>
+#include <rcl/error_handling.h>
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
 
 #include <rmw_microros/rmw_microros.h>
 
 #include <math.h>
+
+// ======================================================
+// MACROS
+// ======================================================
+
+#define RCCHECK(fn)                                      \
+  {                                                      \
+    rcl_ret_t temp_rc = fn;                              \
+    if ((temp_rc != RCL_RET_OK))                         \
+    {                                                    \
+      return false;                                      \
+    }                                                    \
+  }
+
+#define EXECUTE_EVERY_N_MS(MS, X)                        \
+  do                                                     \
+  {                                                      \
+    static volatile int64_t init = -1;                   \
+    if (init == -1)                                      \
+    {                                                    \
+      init = uxr_millis();                               \
+    }                                                    \
+    if (uxr_millis() - init > MS)                        \
+    {                                                    \
+      X;                                                 \
+      init = uxr_millis();                               \
+    }                                                    \
+  } while (0)
+
+// ======================================================
+// CONNECTION STATES
+// ======================================================
+
+enum states
+{
+  WAITING_AGENT,
+  AGENT_AVAILABLE,
+  AGENT_CONNECTED,
+  AGENT_DISCONNECTED
+};
+
+states state;
 
 // ======================================================
 // DHT22
@@ -113,7 +156,7 @@ float rpmL = 0.0;
 float rpmR_f = 0.0;
 float rpmL_f = 0.0;
 
-float alphaRPM = 0.25;
+float alphaRPM = 0.20;
 
 // ======================================================
 // PID
@@ -163,6 +206,7 @@ float theta = 0.0;
 float theta_encoder = 0.0;
 float theta_imu     = 0.0;
 
+// 20% IMU + 80% encoders
 float fusionAlpha = 0.20;
 
 // ======================================================
@@ -207,8 +251,6 @@ float roll = 0;
 float pitch = 0;
 float yaw = 0;
 
-float yaw_filtered = 0;
-
 // ======================================================
 // FILTERS
 // ======================================================
@@ -217,8 +259,6 @@ float alphaIMU = 0.95;
 
 float accelLowPass = 0.97;
 float gyroLowPass  = 0.88;
-
-float yawAlpha = 0.97;
 
 // ======================================================
 // DHT
@@ -538,51 +578,13 @@ void integrateGyro(float dt)
   yaw += gz_f * dt;
 }
 
-void applyComplementaryFilter(
-  float accelRoll,
-  float accelPitch)
-{
-  roll =
-    alphaIMU * roll +
-    (1 - alphaIMU) * accelRoll;
-
-  pitch =
-    alphaIMU * pitch +
-    (1 - alphaIMU) * accelPitch;
-}
-
-void filterYaw()
-{
-  yaw_filtered =
-    yawAlpha * yaw_filtered +
-    (1 - yawAlpha) * yaw;
-}
-
 void processIMU(float dt)
 {
   convertRawData();
 
   applyFilters();
 
-  float accelRoll =
-    atan2(ay_f, az_f) *
-    180.0 / PI;
-
-  float accelPitch =
-    atan2(
-      -ax_f,
-      sqrt(
-        ay_f * ay_f +
-        az_f * az_f))
-    * 180.0 / PI;
-
   integrateGyro(dt);
-
-  applyComplementaryFilter(
-    accelRoll,
-    accelPitch);
-
-  filterYaw();
 }
 
 void readRawGyro()
@@ -661,6 +663,168 @@ void readDHT()
 }
 
 // ======================================================
+// CREATE ENTITIES
+// ======================================================
+
+bool createEntities()
+{
+  allocator =
+    rcl_get_default_allocator();
+
+  RCCHECK(
+    rclc_support_init(
+      &support,
+      0,
+      NULL,
+      &allocator));
+
+  RCCHECK(
+    rclc_node_init_default(
+      &node,
+      "esp32_robot",
+      "",
+      &support));
+
+  RCCHECK(
+    rclc_subscription_init_best_effort(
+      &sub_cmd,
+      &node,
+      ROSIDL_GET_MSG_TYPE_SUPPORT(
+        geometry_msgs,
+        msg,
+        Twist),
+      "/cmd_vel"));
+
+  RCCHECK(
+    rclc_publisher_init_default(
+      &pub_odom,
+      &node,
+      ROSIDL_GET_MSG_TYPE_SUPPORT(
+        nav_msgs,
+        msg,
+        Odometry),
+      "/odom"));
+
+  RCCHECK(
+    rclc_publisher_init_default(
+      &pub_imu,
+      &node,
+      ROSIDL_GET_MSG_TYPE_SUPPORT(
+        sensor_msgs,
+        msg,
+        Imu),
+      "/imu"));
+
+  RCCHECK(
+    rclc_publisher_init_default(
+      &pub_temp,
+      &node,
+      ROSIDL_GET_MSG_TYPE_SUPPORT(
+        sensor_msgs,
+        msg,
+        Temperature),
+      "/temperature"));
+
+  RCCHECK(
+    rclc_publisher_init_default(
+      &pub_humidity,
+      &node,
+      ROSIDL_GET_MSG_TYPE_SUPPORT(
+        sensor_msgs,
+        msg,
+        RelativeHumidity),
+      "/humidity"));
+
+  RCCHECK(
+    rclc_publisher_init_default(
+      &pub_tf,
+      &node,
+      ROSIDL_GET_MSG_TYPE_SUPPORT(
+        tf2_msgs,
+        msg,
+        TFMessage),
+      "/tf"));
+
+  executor =
+    rclc_executor_get_zero_initialized_executor();
+
+  RCCHECK(
+    rclc_executor_init(
+      &executor,
+      &support.context,
+      1,
+      &allocator));
+
+  RCCHECK(
+    rclc_executor_add_subscription(
+      &executor,
+      &sub_cmd,
+      &cmd_msg,
+      &cmdVelCallback,
+      ON_NEW_DATA));
+
+  tf_msg.transforms.data =
+    tf_transforms;
+
+  tf_msg.transforms.size = 1;
+
+  tf_msg.transforms.capacity = 1;
+
+  rmw_uros_sync_session(1000);
+
+  return true;
+}
+
+// ======================================================
+// DESTROY ENTITIES
+// ======================================================
+
+void destroyEntities()
+{
+  rmw_context_t * rmw_context =
+    rcl_context_get_rmw_context(
+      &support.context);
+
+  (void)
+    rmw_uros_set_context_entity_destroy_session_timeout(
+      rmw_context,
+      0);
+
+  rcl_publisher_fini(
+    &pub_odom,
+    &node);
+
+  rcl_publisher_fini(
+    &pub_imu,
+    &node);
+
+  rcl_publisher_fini(
+    &pub_temp,
+    &node);
+
+  rcl_publisher_fini(
+    &pub_humidity,
+    &node);
+
+  rcl_publisher_fini(
+    &pub_tf,
+    &node);
+
+  rcl_subscription_fini(
+    &sub_cmd,
+    &node);
+
+  rclc_executor_fini(
+    &executor);
+
+  rcl_node_fini(
+    &node);
+
+  rclc_support_fini(
+    &support);
+}
+
+// ======================================================
 // SETUP
 // ======================================================
 
@@ -677,29 +841,6 @@ void setup()
   calibrateGyro();
 
   set_microros_transports();
-
-  delay(2000);
-
-  // =====================================
-  // WAIT FOR AGENT
-  // =====================================
-
-  Serial.println("Waiting for micro-ROS agent...");
-
-  while (rmw_uros_ping_agent(1000, 5) != RMW_RET_OK)
-  {
-    delay(500);
-  }
-
-  Serial.println("micro-ROS agent connected!");
-
-  // =====================================
-  // SYNC ROS TIME
-  // =====================================
-
-  rmw_uros_sync_session(1000);
-
-  delay(500);
 
   pinMode(STBY, OUTPUT);
 
@@ -733,477 +874,306 @@ void setup()
     encL_ISR,
     CHANGE);
 
-  allocator =
-    rcl_get_default_allocator();
-
-  rclc_support_init(
-    &support,
-    0,
-    NULL,
-    &allocator);
-
-  rclc_node_init_default(
-    &node,
-    "esp32_robot",
-    "",
-    &support);
-
-  rclc_subscription_init_best_effort(
-    &sub_cmd,
-    &node,
-    ROSIDL_GET_MSG_TYPE_SUPPORT(
-      geometry_msgs,
-      msg,
-      Twist),
-    "/cmd_vel");
-
-  rclc_publisher_init_default(
-    &pub_odom,
-    &node,
-    ROSIDL_GET_MSG_TYPE_SUPPORT(
-      nav_msgs,
-      msg,
-      Odometry),
-    "/odom");
-
-  rclc_publisher_init_default(
-    &pub_imu,
-    &node,
-    ROSIDL_GET_MSG_TYPE_SUPPORT(
-      sensor_msgs,
-      msg,
-      Imu),
-    "/imu");
-
-  rclc_publisher_init_default(
-    &pub_temp,
-    &node,
-    ROSIDL_GET_MSG_TYPE_SUPPORT(
-      sensor_msgs,
-      msg,
-      Temperature),
-    "/temperature");
-
-  rclc_publisher_init_default(
-    &pub_humidity,
-    &node,
-    ROSIDL_GET_MSG_TYPE_SUPPORT(
-      sensor_msgs,
-      msg,
-      RelativeHumidity),
-    "/humidity");
-
-  rclc_publisher_init_default(
-    &pub_tf,
-    &node,
-    ROSIDL_GET_MSG_TYPE_SUPPORT(
-      tf2_msgs,
-      msg,
-      TFMessage),
-    "/tf");
-
-  rclc_executor_init(
-    &executor,
-    &support.context,
-    1,
-    &allocator);
-
-  rclc_executor_add_subscription(
-    &executor,
-    &sub_cmd,
-    &cmd_msg,
-    &cmdVelCallback,
-    ON_NEW_DATA);
-
-  tf_msg.transforms.data =
-    tf_transforms;
-
-  tf_msg.transforms.size = 1;
-
-  tf_msg.transforms.capacity = 1;
-
   last_cmd_time = millis();
 
-  Serial.println("STAGE 5.1 FINAL READY");
+  state = WAITING_AGENT;
+
+  Serial.println("STAGE 5.2 READY");
 }
 
 // ======================================================
-// LOOP
+// MAIN CONTROL LOOP
 // ======================================================
 
-void loop()
+void robotControlLoop()
 {
-  rclc_executor_spin_some(
-    &executor,
-    RCL_MS_TO_NS(1));
-
   static unsigned long lastControl = millis();
 
-  if (millis() - lastControl >= 20)
+  if (millis() - lastControl < 20)
+    return;
+
+  float dt =
+    (millis() - lastControl)
+    / 1000.0;
+
+  lastControl = millis();
+
+  // WATCHDOG
+
+  if (millis() - last_cmd_time >
+      CMD_TIMEOUT)
   {
-    float dt =
-      (millis() - lastControl)
-      / 1000.0;
-
-    lastControl = millis();
-
-    // =====================================
-    // WATCHDOG
-    // =====================================
-
-    if (millis() - last_cmd_time >
-        CMD_TIMEOUT)
-    {
-      targetRPM_R = 0;
-      targetRPM_L = 0;
-
-      iR = 0;
-      iL = 0;
-    }
-
-    // =====================================
-    // RAMP
-    // =====================================
-
-    smoothTargetR =
-      rampTarget(
-        smoothTargetR,
-        targetRPM_R,
-        TARGET_RAMP);
-
-    smoothTargetL =
-      rampTarget(
-        smoothTargetL,
-        targetRPM_L,
-        TARGET_RAMP);
-
-    // =====================================
-    // ENCODERS
-    // =====================================
-
-    static long prevR = 0;
-    static long prevL = 0;
-
-    long currentR = encR;
-    long currentL = encL;
-
-    long deltaR =
-      currentR - prevR;
-
-    long deltaL =
-      currentL - prevL;
-
-    prevR = currentR;
-    prevL = currentL;
-
-    // =====================================
-    // RPM
-    // =====================================
-
-    rpmR =
-      (deltaR / PPR) *
-      (60.0 / dt);
-
-    rpmL =
-      (deltaL / PPR) *
-      (60.0 / dt);
-
-    rpmL = -rpmL;
-
-    // =====================================
-    // FILTER RPM
-    // =====================================
-
-    rpmR_f =
-      alphaRPM * rpmR +
-      (1.0 - alphaRPM) *
-      rpmR_f;
-
-    rpmL_f =
-      alphaRPM * rpmL +
-      (1.0 - alphaRPM) *
-      rpmL_f;
-
-    // =====================================
-    // PID RIGHT
-    // =====================================
-
-    if (abs(smoothTargetR) < 1.0)
-    {
-      pwmR = 0;
-
-      iR = 0;
-
-      eR_prev = 0;
-    }
-    else
-    {
-      eR =
-        smoothTargetR -
-        rpmR_f;
-
-      iR += eR * dt;
-
-      iR =
-        constrain(iR, -80, 80);
-
-      float dR =
-        (eR - eR_prev) / dt;
-
-      eR_prev = eR;
-
-      pwmR =
-        kp * eR +
-        ki * iR +
-        kd * dR;
-    }
-
-    // =====================================
-    // PID LEFT
-    // =====================================
-
-    if (abs(smoothTargetL) < 1.0)
-    {
-      pwmL = 0;
-
-      iL = 0;
-
-      eL_prev = 0;
-    }
-    else
-    {
-      eL =
-        smoothTargetL -
-        rpmL_f;
-
-      iL += eL * dt;
-
-      iL =
-        constrain(iL, -80, 80);
-
-      float dL =
-        (eL - eL_prev) / dt;
-
-      eL_prev = eL;
-
-      pwmL =
-        kp * eL +
-        ki * iL +
-        kd * dL;
-    }
-
-    pwmR =
-      constrain(
-        pwmR,
-        -MAX_PWM,
-        MAX_PWM);
-
-    pwmL =
-      constrain(
-        pwmL,
-        -MAX_PWM,
-        MAX_PWM);
-
-    // =====================================
-    // DRIVE
-    // =====================================
-
-    driveMotor(
-      pwmR,
-      BIN1,
-      BIN2,
-      CH_R,
-      INVERT_RIGHT);
-
-    driveMotor(
-      pwmL,
-      AIN1,
-      AIN2,
-      CH_L,
-      INVERT_LEFT);
-
-    // =====================================
-    // IMU
-    // =====================================
-
-    readMPU();
-
-    processIMU(dt);
-
-    // =====================================
-    // VELOCITIES
-    // =====================================
-
-    float vR =
-      (rpmR_f *
-       2.0 *
-       PI *
-       WHEEL_RADIUS)
-      / 60.0;
-
-    float vL =
-      (rpmL_f *
-       2.0 *
-       PI *
-       WHEEL_RADIUS)
-      / 60.0;
-
-    float linear =
-      (vR + vL) / 2.0;
-
-    float angular_encoder =
-      (vR - vL) / WHEEL_BASE;
-
-    float angular_imu =
-      gz_f * PI / 180.0;
-
-    // DEAD BAND FOR GYRO DRIFT
-    if (fabs(angular_imu) < 0.03)
-    {
-      angular_imu = 0.0;
-    }
-
-    theta_encoder +=
-      angular_encoder * dt;
-
-    theta_imu +=
-      angular_imu * dt;
-
-    theta =
-      fusionAlpha *
-      theta_imu +
-      (1.0 - fusionAlpha) *
-      theta_encoder;
-
-    x +=
-      linear *
-      cos(theta) *
-      dt;
-
-    y +=
-      linear *
-      sin(theta) *
-      dt;
-
-    // =====================================
-    // ODOM
-    // =====================================
-
-    odom_msg.header.stamp =
-      getTime();
-
-    odom_msg.header.frame_id.data =
-      (char*)"odom";
-
-    odom_msg.child_frame_id.data =
-      (char*)"base_footprint";
-
-    odom_msg.pose.pose.position.x = x;
-    odom_msg.pose.pose.position.y = y;
-    odom_msg.pose.pose.position.z = 0.0;
-
-    odom_msg.pose.pose.orientation.x = 0.0;
-    odom_msg.pose.pose.orientation.y = 0.0;
-
-    odom_msg.pose.pose.orientation.z =
-      sin(theta / 2.0);
-
-    odom_msg.pose.pose.orientation.w =
-      cos(theta / 2.0);
-
-    odom_msg.twist.twist.linear.x =
-      linear;
-
-    odom_msg.twist.twist.angular.z =
-      angular_encoder;
-    if (isnan(x) || isnan(y) || isnan(theta))
-    {
-      x = 0.0;
-      y = 0.0;
-      theta = 0.0;
-    }
-    rcl_publish(
-      &pub_odom,
-      &odom_msg,
-      NULL);
-
-    // =====================================
-    // TF
-    // =====================================
-
-    tf_transforms[0].header.stamp =
-      getTime();
-
-    tf_transforms[0].header.frame_id.data =
-      (char*)"odom";
-
-    tf_transforms[0].child_frame_id.data =
-      (char*)"base_footprint";
-
-    tf_transforms[0].transform.translation.x = x;
-    tf_transforms[0].transform.translation.y = y;
-    tf_transforms[0].transform.translation.z = 0.0;
-
-    tf_transforms[0].transform.rotation.x = 0.0;
-    tf_transforms[0].transform.rotation.y = 0.0;
-
-    tf_transforms[0].transform.rotation.z =
-      sin(theta / 2.0);
-
-    tf_transforms[0].transform.rotation.w =
-      cos(theta / 2.0);
-
-    rcl_publish(
-      &pub_tf,
-      &tf_msg,
-      NULL);
-
-    // =====================================
-    // IMU MSG
-    // =====================================
-
-    imu_msg.header.stamp =
-      getTime();
-
-    imu_msg.header.frame_id.data =
-      (char*)"imu_link";
-
-    imu_msg.orientation.x = 0.0;
-    imu_msg.orientation.y = 0.0;
-
-    imu_msg.orientation.z =
-      sin(yaw_filtered * PI / 180.0 / 2.0);
-
-    imu_msg.orientation.w =
-      cos(yaw_filtered * PI / 180.0 / 2.0);
-
-    imu_msg.angular_velocity.x =
-      gx_f * PI / 180.0;
-
-    imu_msg.angular_velocity.y =
-      gy_f * PI / 180.0;
-
-    imu_msg.angular_velocity.z =
-      angular_imu;
-
-    imu_msg.linear_acceleration.x =
-      ax_f * 9.81;
-
-    imu_msg.linear_acceleration.y =
-      ay_f * 9.81;
-
-    imu_msg.linear_acceleration.z =
-      az_f * 9.81;
-
-    rcl_publish(
-      &pub_imu,
-      &imu_msg,
-      NULL);
+    targetRPM_R = 0;
+    targetRPM_L = 0;
+
+    iR = 0;
+    iL = 0;
   }
 
-  // =====================================
+  // RAMP
+
+  smoothTargetR =
+    rampTarget(
+      smoothTargetR,
+      targetRPM_R,
+      TARGET_RAMP);
+
+  smoothTargetL =
+    rampTarget(
+      smoothTargetL,
+      targetRPM_L,
+      TARGET_RAMP);
+
+  // ENCODERS
+
+  static long prevR = 0;
+  static long prevL = 0;
+
+  long currentR = encR;
+  long currentL = encL;
+
+  long deltaR =
+    currentR - prevR;
+
+  long deltaL =
+    currentL - prevL;
+
+  prevR = currentR;
+  prevL = currentL;
+
+  // RPM
+
+  rpmR =
+    (deltaR / PPR) *
+    (60.0 / dt);
+
+  rpmL =
+    (deltaL / PPR) *
+    (60.0 / dt);
+
+  rpmL = -rpmL;
+
+  // FILTER RPM
+
+  rpmR_f =
+    alphaRPM * rpmR +
+    (1.0 - alphaRPM) *
+    rpmR_f;
+
+  rpmL_f =
+    alphaRPM * rpmL +
+    (1.0 - alphaRPM) *
+    rpmL_f;
+
+  // PID
+
+  eR =
+    smoothTargetR -
+    rpmR_f;
+
+  eL =
+    smoothTargetL -
+    rpmL_f;
+
+  iR += eR * dt;
+  iL += eL * dt;
+
+  iR = constrain(iR, -80, 80);
+  iL = constrain(iL, -80, 80);
+
+  float dR =
+    (eR - eR_prev) / dt;
+
+  float dL =
+    (eL - eL_prev) / dt;
+
+  eR_prev = eR;
+  eL_prev = eL;
+
+  pwmR =
+    kp * eR +
+    ki * iR +
+    kd * dR;
+
+  pwmL =
+    kp * eL +
+    ki * iL +
+    kd * dL;
+
+  pwmR =
+    constrain(
+      pwmR,
+      -MAX_PWM,
+      MAX_PWM);
+
+  pwmL =
+    constrain(
+      pwmL,
+      -MAX_PWM,
+      MAX_PWM);
+
+  // DRIVE
+
+  driveMotor(
+    pwmR,
+    BIN1,
+    BIN2,
+    CH_R,
+    INVERT_RIGHT);
+
+  driveMotor(
+    pwmL,
+    AIN1,
+    AIN2,
+    CH_L,
+    INVERT_LEFT);
+
+  // IMU
+
+  readMPU();
+
+  processIMU(dt);
+
+  // VELOCITIES
+
+  float vR =
+    (rpmR_f *
+     2.0 *
+     PI *
+     WHEEL_RADIUS)
+    / 60.0;
+
+  float vL =
+    (rpmL_f *
+     2.0 *
+     PI *
+     WHEEL_RADIUS)
+    / 60.0;
+
+  float linear =
+    (vR + vL) / 2.0;
+
+  float angular_encoder =
+    (vR - vL) / WHEEL_BASE;
+
+  float angular_imu =
+    gz_f * PI / 180.0;
+
+  if (fabs(angular_imu) < 0.03)
+  {
+    angular_imu = 0.0;
+  }
+
+  theta_encoder +=
+    angular_encoder * dt;
+
+  theta_imu +=
+    angular_imu * dt;
+
+  theta =
+    fusionAlpha *
+    theta_imu +
+    (1.0 - fusionAlpha) *
+    theta_encoder;
+
+  x +=
+    linear *
+    cos(theta) *
+    dt;
+
+  y +=
+    linear *
+    sin(theta) *
+    dt;
+
+  // ODOM
+
+  odom_msg.header.stamp =
+    getTime();
+
+  odom_msg.header.frame_id.data =
+    (char*)"odom";
+
+  odom_msg.child_frame_id.data =
+    (char*)"base_footprint";
+
+  odom_msg.pose.pose.position.x = x;
+  odom_msg.pose.pose.position.y = y;
+
+  odom_msg.pose.pose.orientation.z =
+    sin(theta / 2.0);
+
+  odom_msg.pose.pose.orientation.w =
+    cos(theta / 2.0);
+
+  odom_msg.twist.twist.linear.x =
+    linear;
+
+  odom_msg.twist.twist.angular.z =
+    angular_encoder;
+
+  rcl_publish(
+    &pub_odom,
+    &odom_msg,
+    NULL);
+
+  // TF
+
+  tf_transforms[0].header.stamp =
+    getTime();
+
+  tf_transforms[0].header.frame_id.data =
+    (char*)"odom";
+
+  tf_transforms[0].child_frame_id.data =
+    (char*)"base_footprint";
+
+  tf_transforms[0].transform.translation.x = x;
+  tf_transforms[0].transform.translation.y = y;
+
+  tf_transforms[0].transform.rotation.z =
+    sin(theta / 2.0);
+
+  tf_transforms[0].transform.rotation.w =
+    cos(theta / 2.0);
+
+  rcl_publish(
+    &pub_tf,
+    &tf_msg,
+    NULL);
+
+  // IMU USING THETA FUSION
+
+  imu_msg.header.stamp =
+    getTime();
+
+  imu_msg.header.frame_id.data =
+    (char*)"imu_link";
+
+  imu_msg.orientation.z =
+    sin(theta / 2.0);
+
+  imu_msg.orientation.w =
+    cos(theta / 2.0);
+
+  imu_msg.angular_velocity.z =
+    angular_imu;
+
+  imu_msg.linear_acceleration.x =
+    ax_f * 9.81;
+
+  imu_msg.linear_acceleration.y =
+    ay_f * 9.81;
+
+  imu_msg.linear_acceleration.z =
+    az_f * 9.81;
+
+  rcl_publish(
+    &pub_imu,
+    &imu_msg,
+    NULL);
+
   // DHT
-  // =====================================
 
   static unsigned long lastDHT = millis();
 
@@ -1216,17 +1186,11 @@ void loop()
     temp_msg.header.stamp =
       getTime();
 
-    temp_msg.header.frame_id.data =
-      (char*)"base_link";
-
     temp_msg.temperature =
       temperature;
 
-    humidity_msg.header.stamp = 
+    humidity_msg.header.stamp =
       getTime();
-
-    humidity_msg.header.frame_id.data =
-      (char*)"base_link";
 
     humidity_msg.relative_humidity =
       humidity / 100.0;
@@ -1240,5 +1204,99 @@ void loop()
       &pub_humidity,
       &humidity_msg,
       NULL);
+  }
+}
+
+// ======================================================
+// LOOP
+// ======================================================
+
+void loop()
+{
+  switch (state)
+  {
+    case WAITING_AGENT:
+
+      EXECUTE_EVERY_N_MS(
+        1000,
+        state =
+          (RMW_RET_OK ==
+           rmw_uros_ping_agent(100, 1))
+          ? AGENT_AVAILABLE
+          : WAITING_AGENT;
+      );
+
+      break;
+
+    case AGENT_AVAILABLE:
+
+      if (createEntities())
+      {
+        state = AGENT_CONNECTED;
+
+        Serial.println(
+          "micro-ROS connected!");
+      }
+      else
+      {
+        destroyEntities();
+
+        state = WAITING_AGENT;
+      }
+
+      break;
+
+    case AGENT_CONNECTED:
+
+      EXECUTE_EVERY_N_MS(
+        2000,
+        state =
+          (RMW_RET_OK ==
+           rmw_uros_ping_agent(100, 1))
+          ? AGENT_CONNECTED
+          : AGENT_DISCONNECTED;
+      );
+
+      if (state == AGENT_CONNECTED)
+      {
+        rclc_executor_spin_some(
+          &executor,
+          RCL_MS_TO_NS(5));
+
+        robotControlLoop();
+      }
+
+      break;
+
+    case AGENT_DISCONNECTED:
+
+      Serial.println(
+        "Agent disconnected!");
+
+      destroyEntities();
+
+      targetRPM_R = 0;
+      targetRPM_L = 0;
+
+      driveMotor(
+        0,
+        BIN1,
+        BIN2,
+        CH_R,
+        INVERT_RIGHT);
+
+      driveMotor(
+        0,
+        AIN1,
+        AIN2,
+        CH_L,
+        INVERT_LEFT);
+
+      state = WAITING_AGENT;
+
+      break;
+
+    default:
+      break;
   }
 }
