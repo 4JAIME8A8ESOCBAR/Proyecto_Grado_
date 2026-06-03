@@ -183,7 +183,7 @@ int pwmL = 0;
 // ======================================================
 
 const int MAX_PWM = 220;
-const int MIN_PWM = 35;
+const int MIN_PWM = 20;
 
 // ======================================================
 // RAMP
@@ -408,6 +408,10 @@ void driveMotor(
   int channel,
   bool invert)
 {
+  if (abs(pwm) < 10)
+  {
+      pwm = 0;
+  }
   bool dir = pwm >= 0;
 
   if (invert)
@@ -965,40 +969,73 @@ void robotControlLoop()
     (1.0 - alphaRPM) *
     rpmL_f;
 
-  // PID
+  // =====================================
+  // PID RIGHT
+  // =====================================
 
-  eR =
-    smoothTargetR -
-    rpmR_f;
+  if (abs(smoothTargetR) < 1.0)
+  {
+    pwmR = 0;
 
-  eL =
-    smoothTargetL -
-    rpmL_f;
+    iR = 0;
 
-  iR += eR * dt;
-  iL += eL * dt;
+    eR_prev = 0;
+  }
+  else
+  {
+    eR =
+      smoothTargetR -
+      rpmR_f;
 
-  iR = constrain(iR, -80, 80);
-  iL = constrain(iL, -80, 80);
+    iR += eR * dt;
 
-  float dR =
-    (eR - eR_prev) / dt;
+    iR =
+      constrain(iR, -80, 80);
 
-  float dL =
-    (eL - eL_prev) / dt;
+    float dR =
+      (eR - eR_prev) / dt;
 
-  eR_prev = eR;
-  eL_prev = eL;
+    eR_prev = eR;
 
-  pwmR =
-    kp * eR +
-    ki * iR +
-    kd * dR;
+    pwmR =
+      kp * eR +
+      ki * iR +
+      kd * dR;
+  }
 
-  pwmL =
-    kp * eL +
-    ki * iL +
-    kd * dL;
+  // =====================================
+  // PID LEFT
+  // =====================================
+
+  if (abs(smoothTargetL) < 1.0)
+  {
+    pwmL = 0;
+
+    iL = 0;
+
+    eL_prev = 0;
+  }
+  else
+  {
+    eL =
+      smoothTargetL -
+      rpmL_f;
+
+    iL += eL * dt;
+
+    iL =
+      constrain(iL, -80, 80);
+
+    float dL =
+      (eL - eL_prev) / dt;
+
+    eL_prev = eL;
+
+    pwmL =
+      kp * eL +
+      ki * iL +
+      kd * dL;
+  }
 
   pwmR =
     constrain(
@@ -1134,7 +1171,7 @@ void robotControlLoop()
   tf_transforms[0].transform.rotation.z =
     sin(theta / 2.0);
 
-  tf_transforms[0].transform.rotation.w =
+  tf_transforms[0].transform.rotation.w  =
     cos(theta / 2.0);
 
   rcl_publish(

@@ -1,0 +1,10 @@
+/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_filters/CMakeFiles/uninstall.dir
+/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_filters/CMakeFiles/depthai_filters_uninstall.dir
+/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_filters/CMakeFiles/depthai_filters.dir
+/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_filters/CMakeFiles/test.dir
+/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_filters/CMakeFiles/edit_cache.dir
+/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_filters/CMakeFiles/rebuild_cache.dir
+/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_filters/CMakeFiles/list_install_components.dir
+/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_filters/CMakeFiles/install.dir
+/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_filters/CMakeFiles/install/local.dir
+/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_filters/CMakeFiles/install/strip.dir

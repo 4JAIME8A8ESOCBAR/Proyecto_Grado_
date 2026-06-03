@@ -1,0 +1,1 @@
+[0mCMake Error: The current CMakeCache.txt directory /home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/mi_robot_rescate/CMakeCache.txt is different than the directory /home/andres/colcon_ws/build/mi_robot_rescate where CMakeCache.txt was created. This may result in binaries being created in the wrong place. If you are not sure, reedit the CMakeCache.txt[0m

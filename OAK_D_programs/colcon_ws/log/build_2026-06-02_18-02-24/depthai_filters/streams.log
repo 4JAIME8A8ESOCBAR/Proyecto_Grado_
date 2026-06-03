@@ -1,0 +1,33 @@
+[0.010s] Invoking command in '/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_filters': AMENT_PREFIX_PATH=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_ros_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_ros_msgs:/home/andres/microros_ws/install/micro_ros_setup:/home/andres/microros_ws/install/micro_ros_agent:/home/andres/microros_ws/install/micro_ros_msgs:/home/andres/turtlebot3_ws/install/turtlebot3:/home/andres/turtlebot3_ws/install/turtlebot3_simulations:/home/andres/turtlebot3_ws/install/turtlebot3_bringup:/home/andres/turtlebot3_ws/install/turtlebot3_node:/home/andres/turtlebot3_ws/install/turtlebot3_navigation2:/home/andres/turtlebot3_ws/install/turtlebot3_fake_node:/home/andres/turtlebot3_ws/install/turtlebot3_msgs:/home/andres/turtlebot3_ws/install/turtlebot3_manipulation_gazebo:/home/andres/turtlebot3_ws/install/turtlebot3_gazebo:/home/andres/turtlebot3_ws/install/turtlebot3_description:/home/andres/turtlebot3_ws/install/turtlebot3_cartographer:/home/andres/turtlebot3_ws/install/dynamixel_sdk_examples:/home/andres/turtlebot3_ws/install/dynamixel_sdk_custom_interfaces:/home/andres/turtlebot3_ws/install/dynamixel_sdk:/home/andres/ros2_ws/install/sllidar_ros2:/home/andres/ros2_ws/install/my_robot_gazebo:/home/andres/Documents/Robotica/LIDAR/install/sllidar_ros2:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble LD_LIBRARY_PATH=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_ros_msgs/lib:/home/andres/microros_ws/install/micro_ros_agent/lib:/home/andres/microros_ws/install/micro_ros_msgs/lib:/home/andres/turtlebot3_ws/install/turtlebot3_msgs/lib:/home/andres/turtlebot3_ws/install/dynamixel_sdk_custom_interfaces/lib:/home/andres/turtlebot3_ws/install/dynamixel_sdk/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins PYTHONPATH=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_ros_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/src/depthai-ros/depthai_filters -DCMAKE_INSTALL_PREFIX=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_filters
+[0.064s] -- The CXX compiler identification is GNU 11.4.0
+[0.100s] -- The C compiler identification is GNU 11.4.0
+[0.106s] -- Detecting CXX compiler ABI info
+[0.177s] -- Detecting CXX compiler ABI info - done
+[0.182s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.182s] -- Detecting CXX compile features
+[0.183s] -- Detecting CXX compile features - done
+[0.185s] -- Detecting C compiler ABI info
+[0.248s] -- Detecting C compiler ABI info - done
+[0.253s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.254s] -- Detecting C compile features
+[0.254s] -- Detecting C compile features - done
+[0.258s] -- Found ament_cmake_auto: 1.3.14 (/opt/ros/humble/share/ament_cmake_auto/cmake)
+[0.391s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.606s] -- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.614s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.624s] -- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.637s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.655s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.754s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.759s] -- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.853s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[0.883s] -- Found FastRTPS: /opt/ros/humble/include  
+[0.927s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.940s] -- Looking for pthread.h
+[1.007s] -- Looking for pthread.h - found
+[1.008s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[1.074s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[1.075s] -- Found Threads: TRUE  
+[1.259s] -- Configuring done
+[1.274s] -- Generating done
+[1.278s] -- Build files have been written to: /home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_filters

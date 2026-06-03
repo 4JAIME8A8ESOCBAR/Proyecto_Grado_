@@ -1,0 +1,49 @@
+[0.011s] Invoking command in '/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_bridge': AMENT_PREFIX_PATH=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_ros_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_ros_msgs:/home/andres/microros_ws/install/micro_ros_setup:/home/andres/microros_ws/install/micro_ros_agent:/home/andres/microros_ws/install/micro_ros_msgs:/home/andres/turtlebot3_ws/install/turtlebot3:/home/andres/turtlebot3_ws/install/turtlebot3_simulations:/home/andres/turtlebot3_ws/install/turtlebot3_bringup:/home/andres/turtlebot3_ws/install/turtlebot3_node:/home/andres/turtlebot3_ws/install/turtlebot3_navigation2:/home/andres/turtlebot3_ws/install/turtlebot3_fake_node:/home/andres/turtlebot3_ws/install/turtlebot3_msgs:/home/andres/turtlebot3_ws/install/turtlebot3_manipulation_gazebo:/home/andres/turtlebot3_ws/install/turtlebot3_gazebo:/home/andres/turtlebot3_ws/install/turtlebot3_description:/home/andres/turtlebot3_ws/install/turtlebot3_cartographer:/home/andres/turtlebot3_ws/install/dynamixel_sdk_examples:/home/andres/turtlebot3_ws/install/dynamixel_sdk_custom_interfaces:/home/andres/turtlebot3_ws/install/dynamixel_sdk:/home/andres/ros2_ws/install/sllidar_ros2:/home/andres/ros2_ws/install/my_robot_gazebo:/home/andres/Documents/Robotica/LIDAR/install/sllidar_ros2:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble LD_LIBRARY_PATH=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_ros_msgs/lib:/home/andres/microros_ws/install/micro_ros_agent/lib:/home/andres/microros_ws/install/micro_ros_msgs/lib:/home/andres/turtlebot3_ws/install/turtlebot3_msgs/lib:/home/andres/turtlebot3_ws/install/dynamixel_sdk_custom_interfaces/lib:/home/andres/turtlebot3_ws/install/dynamixel_sdk/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins PYTHONPATH=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_ros_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/src/depthai-ros/depthai_bridge -DCMAKE_INSTALL_PREFIX=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_bridge
+[0.068s] -- The CXX compiler identification is GNU 11.4.0
+[0.105s] -- The C compiler identification is GNU 11.4.0
+[0.111s] -- Detecting CXX compiler ABI info
+[0.182s] -- Detecting CXX compiler ABI info - done
+[0.188s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.188s] -- Detecting CXX compile features
+[0.189s] -- Detecting CXX compile features - done
+[0.191s] -- Detecting C compiler ABI info
+[0.253s] -- Detecting C compiler ABI info - done
+[0.258s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.258s] -- Detecting C compile features
+[0.258s] -- Detecting C compile features - done
+[0.262s] -- Found ament_index_cpp: 1.4.1 (/opt/ros/humble/share/ament_index_cpp/cmake)
+[0.266s] -- Found camera_info_manager: 3.1.12 (/opt/ros/humble/share/camera_info_manager/cmake)
+[0.396s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.559s] -- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.567s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.578s] -- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.591s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.609s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.662s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.667s] -- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.766s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[0.796s] -- Found FastRTPS: /opt/ros/humble/include  
+[0.840s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.853s] -- Looking for pthread.h
+[0.919s] -- Looking for pthread.h - found
+[0.919s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[0.987s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[0.988s] -- Found Threads: TRUE  
+[1.075s] -- Found cv_bridge: 3.2.1 (/opt/ros/humble/share/cv_bridge/cmake)
+[1.088s] -- Found depthai_ros_msgs: 3.2.0 (/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_ros_msgs/share/depthai_ros_msgs/cmake)
+[1.129s] [31mCMake Error at CMakeLists.txt:17 (find_package):
+[1.129s]   Could not find a package configuration file provided by "depthai" with any
+[1.129s]   of the following names:
+[1.129s] 
+[1.129s]     depthaiConfig.cmake
+[1.129s]     depthai-config.cmake
+[1.130s] 
+[1.130s]   Add the installation prefix of "depthai" to CMAKE_PREFIX_PATH or set
+[1.130s]   "depthai_DIR" to a directory containing one of the above files.  If
+[1.130s]   "depthai" provides a separate development package or SDK, be sure it has
+[1.130s]   been installed.
+[1.130s] 
+[1.130s] [0m
+[1.130s] -- Configuring incomplete, errors occurred!
+[1.130s] See also "/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_bridge/CMakeFiles/CMakeOutput.log".
+[1.138s] Invoked command in '/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/build/depthai_bridge' returned '1': AMENT_PREFIX_PATH=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_ros_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_ros_msgs:/home/andres/microros_ws/install/micro_ros_setup:/home/andres/microros_ws/install/micro_ros_agent:/home/andres/microros_ws/install/micro_ros_msgs:/home/andres/turtlebot3_ws/install/turtlebot3:/home/andres/turtlebot3_ws/install/turtlebot3_simulations:/home/andres/turtlebot3_ws/install/turtlebot3_bringup:/home/andres/turtlebot3_ws/install/turtlebot3_node:/home/andres/turtlebot3_ws/install/turtlebot3_navigation2:/home/andres/turtlebot3_ws/install/turtlebot3_fake_node:/home/andres/turtlebot3_ws/install/turtlebot3_msgs:/home/andres/turtlebot3_ws/install/turtlebot3_manipulation_gazebo:/home/andres/turtlebot3_ws/install/turtlebot3_gazebo:/home/andres/turtlebot3_ws/install/turtlebot3_description:/home/andres/turtlebot3_ws/install/turtlebot3_cartographer:/home/andres/turtlebot3_ws/install/dynamixel_sdk_examples:/home/andres/turtlebot3_ws/install/dynamixel_sdk_custom_interfaces:/home/andres/turtlebot3_ws/install/dynamixel_sdk:/home/andres/ros2_ws/install/sllidar_ros2:/home/andres/ros2_ws/install/my_robot_gazebo:/home/andres/Documents/Robotica/LIDAR/install/sllidar_ros2:/home/andres/turtlebot3_ws/install/turtlebot3_teleop:/home/andres/turtlebot3_ws/install/turtlebot3_example:/opt/ros/humble LD_LIBRARY_PATH=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_ros_msgs/lib:/home/andres/microros_ws/install/micro_ros_agent/lib:/home/andres/microros_ws/install/micro_ros_msgs/lib:/home/andres/turtlebot3_ws/install/turtlebot3_msgs/lib:/home/andres/turtlebot3_ws/install/dynamixel_sdk_custom_interfaces/lib:/home/andres/turtlebot3_ws/install/dynamixel_sdk/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins PYTHONPATH=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_ros_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/src/depthai-ros/depthai_bridge -DCMAKE_INSTALL_PREFIX=/home/andres/Documents/Proyecto_G/OAK_D_programs/colcon_ws/install/depthai_bridge
