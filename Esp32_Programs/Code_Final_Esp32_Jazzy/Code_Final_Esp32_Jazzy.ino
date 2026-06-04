@@ -1149,6 +1149,21 @@ void robotControlLoop()
   odom_msg.twist.twist.angular.z =
     angular_encoder;
 
+  // COVARIANZAS ODOM
+  for (int i = 0; i < 36; i++)
+  {
+    odom_msg.pose.covariance[i] = 0.0;
+    odom_msg.twist.covariance[i] = 0.0;
+  }
+
+  odom_msg.pose.covariance[0]  = 0.02;
+  odom_msg.pose.covariance[7]  = 0.02;
+  odom_msg.pose.covariance[35] = 0.08;
+
+  odom_msg.twist.covariance[0]  = 0.02;
+  odom_msg.twist.covariance[7]  = 0.02;
+  odom_msg.twist.covariance[35] = 0.05;
+
   rcl_publish(
     &pub_odom,
     &odom_msg,
@@ -1204,6 +1219,26 @@ void robotControlLoop()
 
   imu_msg.linear_acceleration.z =
     az_f * 9.81;
+    
+  // COVARIAZAS IMU
+  for(int i=0;i<9;i++)
+  {
+    imu_msg.orientation_covariance[i] = 0.0;
+    imu_msg.angular_velocity_covariance[i] = 0.0;
+    imu_msg.linear_acceleration_covariance[i] = 0.0;
+  }
+
+  imu_msg.orientation_covariance[0] = 0.2;
+  imu_msg.orientation_covariance[4] = 0.2;
+  imu_msg.orientation_covariance[8] = 0.1;
+
+  imu_msg.angular_velocity_covariance[0] = 0.01;
+  imu_msg.angular_velocity_covariance[4] = 0.01;
+  imu_msg.angular_velocity_covariance[8] = 0.01;
+
+  imu_msg.linear_acceleration_covariance[0] = 0.1;
+  imu_msg.linear_acceleration_covariance[4] = 0.1;
+  imu_msg.linear_acceleration_covariance[8] = 0.1;
 
   rcl_publish(
     &pub_imu,
