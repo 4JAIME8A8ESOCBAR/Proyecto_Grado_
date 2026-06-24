@@ -163,7 +163,7 @@ float theta = 0.0;
 float theta_encoder = 0.0;
 float theta_imu     = 0.0;
 
-float fusionAlpha = 0.20;
+float fusionAlpha = 0.00;
 
 // ======================================================
 // IMU RAW

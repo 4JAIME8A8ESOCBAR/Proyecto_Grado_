@@ -1,0 +1,37 @@
+[0.020s] Invoking command in '/home/ubuntu/ros_ws/build/scanbot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /home/ubuntu/ros_ws/build/scanbot_description -- -j16 -l16
+[0.105s] Invoked command in '/home/ubuntu/ros_ws/build/scanbot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /home/ubuntu/ros_ws/build/scanbot_description -- -j16 -l16
+[0.128s] Invoking command in '/home/ubuntu/ros_ws/build/scanbot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /home/ubuntu/ros_ws/build/scanbot_description
+[0.145s] -- Install configuration: ""
+[0.146s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/urdf
+[0.146s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/urdf/scanbot_description.urdf.xacro
+[0.146s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/urdf/scanbot_description.csv
+[0.146s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/meshes
+[0.146s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/meshes/Left_Scatter_Gear_link.STL
+[0.146s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/meshes/Right_Gear_link.STL
+[0.147s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/meshes/base_link.STL
+[0.147s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/meshes/Right_Scatter_Gear_link.STL
+[0.147s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/meshes/Left_Gear_link.STL
+[0.147s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/launch
+[0.147s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/launch/display.launch.py
+[0.147s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/launch/gazebo.launch
+[0.147s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/rviz
+[0.147s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/rviz/scanbot.rviz
+[0.148s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/config
+[0.148s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/config/joint_names_ScanBot__f.yaml
+[0.148s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/textures
+[0.148s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/ament_index/resource_index/package_run_dependencies/scanbot_description
+[0.148s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/ament_index/resource_index/parent_prefix_path/scanbot_description
+[0.148s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/environment/ament_prefix_path.sh
+[0.148s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/environment/ament_prefix_path.dsv
+[0.148s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/environment/path.sh
+[0.148s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/environment/path.dsv
+[0.148s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/local_setup.bash
+[0.148s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/local_setup.sh
+[0.149s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/local_setup.zsh
+[0.149s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/local_setup.dsv
+[0.149s] -- Installing: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/package.dsv
+[0.149s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/ament_index/resource_index/packages/scanbot_description
+[0.149s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/cmake/scanbot_descriptionConfig.cmake
+[0.149s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/cmake/scanbot_descriptionConfig-version.cmake
+[0.149s] -- Up-to-date: /home/ubuntu/ros_ws/install/scanbot_description/share/scanbot_description/package.xml
+[0.151s] Invoked command in '/home/ubuntu/ros_ws/build/scanbot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /home/ubuntu/ros_ws/build/scanbot_description

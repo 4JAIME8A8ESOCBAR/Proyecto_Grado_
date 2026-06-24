@@ -1,0 +1,6 @@
+Invoking command in '/home/ubuntu/ros_ws/build/scanbot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /home/ubuntu/ros_ws/src/scanbot_description -DCMAKE_INSTALL_PREFIX=/home/ubuntu/ros_ws/install/scanbot_description
+Invoked command in '/home/ubuntu/ros_ws/build/scanbot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /home/ubuntu/ros_ws/src/scanbot_description -DCMAKE_INSTALL_PREFIX=/home/ubuntu/ros_ws/install/scanbot_description
+Invoking command in '/home/ubuntu/ros_ws/build/scanbot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /home/ubuntu/ros_ws/build/scanbot_description -- -j16 -l16
+Invoked command in '/home/ubuntu/ros_ws/build/scanbot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /home/ubuntu/ros_ws/build/scanbot_description -- -j16 -l16
+Invoking command in '/home/ubuntu/ros_ws/build/scanbot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /home/ubuntu/ros_ws/build/scanbot_description
+Invoked command in '/home/ubuntu/ros_ws/build/scanbot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /home/ubuntu/ros_ws/build/scanbot_description

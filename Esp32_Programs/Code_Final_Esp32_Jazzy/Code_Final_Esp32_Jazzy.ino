@@ -199,6 +199,16 @@ float x = 0.0;
 float y = 0.0;
 float theta = 0.0;
 
+float vL = 0;
+float vR = 0;
+
+bool odom_initialized = true;  // Inicio datos x , y, y yaw en 0
+
+double theta_offset = 0;   // Ayuda en datos peuqeños de theta(yaw)
+
+
+double theta_pub = 0;
+
 // ======================================================
 // YAW FUSION
 // ======================================================
@@ -207,7 +217,7 @@ float theta_encoder = 0.0;
 float theta_imu     = 0.0;
 
 // 20% IMU + 80% encoders
-float fusionAlpha = 0.20;
+float fusionAlpha = 0.00;
 
 // ======================================================
 // IMU RAW
@@ -335,10 +345,24 @@ builtin_interfaces__msg__Time getTime()
 // ISR RIGHT
 // ======================================================
 
-void encR_ISR()
+void encR_A_ISR()
 {
-  if (digitalRead(ENC_R_A) ==
-      digitalRead(ENC_R_B))
+  bool A = digitalRead(ENC_R_A);
+  bool B = digitalRead(ENC_R_B);
+
+  if(A == B)
+    encR++;
+  else
+    encR--;
+}
+
+
+void encR_B_ISR()
+{
+  bool A = digitalRead(ENC_R_A);
+  bool B = digitalRead(ENC_R_B);
+
+  if(A != B)
     encR++;
   else
     encR--;
@@ -348,10 +372,24 @@ void encR_ISR()
 // ISR LEFT
 // ======================================================
 
-void encL_ISR()
+void encL_A_ISR()
 {
-  if (digitalRead(ENC_L_A) ==
-      digitalRead(ENC_L_B))
+  bool A = digitalRead(ENC_L_A);
+  bool B = digitalRead(ENC_L_B);
+
+  if(A == B)
+    encL++;
+  else
+    encL--;
+}
+
+
+void encL_B_ISR()
+{
+  bool A = digitalRead(ENC_L_A);
+  bool B = digitalRead(ENC_L_B);
+
+  if(A != B)
     encL++;
   else
     encL--;
@@ -834,6 +872,12 @@ void destroyEntities()
 
 void setup()
 {
+  vL = 0;
+  vR = 0;
+
+  x = 0;
+  y = 0;
+  theta = 0;
   Serial.begin(115200);
 
   setupI2C();
@@ -870,12 +914,22 @@ void setup()
 
   attachInterrupt(
     digitalPinToInterrupt(ENC_R_A),
-    encR_ISR,
+    encR_A_ISR,
+    CHANGE);
+
+  attachInterrupt(
+    digitalPinToInterrupt(ENC_R_B),
+    encR_B_ISR,
     CHANGE);
 
   attachInterrupt(
     digitalPinToInterrupt(ENC_L_A),
-    encL_ISR,
+    encL_A_ISR,
+    CHANGE);
+
+  attachInterrupt(
+    digitalPinToInterrupt(ENC_L_B),
+    encL_B_ISR,
     CHANGE);
 
   last_cmd_time = millis();
@@ -939,7 +993,7 @@ void robotControlLoop()
   long deltaR =
     currentR - prevR;
 
-  long deltaL =
+  long   deltaL =
     currentL - prevL;
 
   prevR = currentR;
@@ -1143,6 +1197,21 @@ void robotControlLoop()
   odom_msg.pose.pose.orientation.w =
     cos(theta / 2.0);
 
+  // ==============================
+  // FILTRO DE REPOSO
+  // ==============================
+
+  if (fabs(linear) < 0.005)
+  {
+      linear = 0.0;
+  }
+
+
+  if (fabs(angular_encoder) < 0.01)
+  {
+      angular_encoder = 0.0;
+  }
+
   odom_msg.twist.twist.linear.x =
     linear;
 
@@ -1156,9 +1225,9 @@ void robotControlLoop()
     odom_msg.twist.covariance[i] = 0.0;
   }
 
-  odom_msg.pose.covariance[0]  = 0.02;
-  odom_msg.pose.covariance[7]  = 0.02;
-  odom_msg.pose.covariance[35] = 0.08;
+  odom_msg.pose.covariance[0]  = 0.02;  // x
+  odom_msg.pose.covariance[7]  = 0.02;  // y
+  odom_msg.pose.covariance[35] = 0.05;  // yaw
 
   odom_msg.twist.covariance[0]  = 0.02;
   odom_msg.twist.covariance[7]  = 0.02;
@@ -1180,14 +1249,27 @@ void robotControlLoop()
   tf_transforms[0].child_frame_id.data =
     (char*)"base_footprint";
 
+  if(odom_initialized)
+  {
+      theta_offset = theta;
+
+      odom_initialized = false;
+  } 
+
+
+  double theta_pub = theta - theta_offset;
+
+
+
   tf_transforms[0].transform.translation.x = x;
   tf_transforms[0].transform.translation.y = y;
 
-  tf_transforms[0].transform.rotation.z =
-    sin(theta / 2.0);
 
-  tf_transforms[0].transform.rotation.w  =
-    cos(theta / 2.0);
+  tf_transforms[0].transform.rotation.z =
+      sin(theta_pub / 2.0);
+
+  tf_transforms[0].transform.rotation.w =
+      cos(theta_pub / 2.0);
 
   rcl_publish(
     &pub_tf,
@@ -1203,10 +1285,10 @@ void robotControlLoop()
     (char*)"imu_link";
 
   imu_msg.orientation.z =
-    sin(theta / 2.0);
+    sin(theta_pub / 2.0);
 
   imu_msg.orientation.w =
-    cos(theta / 2.0);
+    cos(theta_pub / 2.0);
 
   imu_msg.angular_velocity.z =
     angular_imu;
@@ -1228,13 +1310,13 @@ void robotControlLoop()
     imu_msg.linear_acceleration_covariance[i] = 0.0;
   }
 
-  imu_msg.orientation_covariance[0] = 0.2;
-  imu_msg.orientation_covariance[4] = 0.2;
-  imu_msg.orientation_covariance[8] = 0.1;
+  imu_msg.orientation_covariance[0] = 0.5;
+  imu_msg.orientation_covariance[4] = 0.5;
+  imu_msg.orientation_covariance[8] = 0.05;
 
   imu_msg.angular_velocity_covariance[0] = 0.01;
   imu_msg.angular_velocity_covariance[4] = 0.01;
-  imu_msg.angular_velocity_covariance[8] = 0.01;
+  imu_msg.angular_velocity_covariance[8] = 0.02;
 
   imu_msg.linear_acceleration_covariance[0] = 0.1;
   imu_msg.linear_acceleration_covariance[4] = 0.1;
